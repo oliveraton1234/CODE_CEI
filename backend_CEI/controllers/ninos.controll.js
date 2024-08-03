@@ -83,28 +83,56 @@ ninosController.get('/', async (req, res) => {
 });
 
 
+
 ninosController.get('/reprobados', async (req, res) => {
+    const { promedioMaximo, materia, anioAcademico, semestre } = req.query;
+
     try {
-        const reprobados = await Nino.aggregate([
-            { $match: { estatus: 'Activo' } },
-            {
-                $project: {
-                    calificaciones: { $slice: ['$calificaciones', -1] },
-                    nombre: 1,
-                    apellido: 1,
-                    gradoEscolar: 1
+        let matchQuery = { estatus: 'Activo' };
 
-                }
-            },
+        if (promedioMaximo) {
+            matchQuery['calificaciones.promedio'] = { $lte: parseFloat(promedioMaximo), $ne: 0 };
+        }
+
+        if (materia) {
+            matchQuery['calificaciones.materias.nombreMateria'] = materia;
+        }
+
+        const projectQuery = {
+            nombre: 1,
+            apellido: 1,
+            'calificaciones.gradoEscolar': 1,
+            'calificaciones.promedio': 1,
+            'calificaciones.añoAcademico': 1,
+            'calificaciones.semestre': 1,
+        };
+
+        const pipeline = [
+            { $match: matchQuery },
             { $unwind: '$calificaciones' },
-            { $match: { 'calificaciones.promedio': { $lte: 6 } } },
-        ]);
+            { $match: matchQuery },
+            { $project: projectQuery }
+        ];
 
+        // Añadiendo filtros de año académico y semestre si se especifican
+        if (anioAcademico) {
+            pipeline.push({ $match: { 'calificaciones.añoAcademico': anioAcademico } });
+        }
+
+        if (semestre && semestre !== 'Completo') {
+            pipeline.push({ $match: { 'calificaciones.semestre': semestre } });
+        }
+
+        const reprobados = await Nino.aggregate(pipeline);
         res.status(200).json(reprobados);
-    } catch (errors) {
+    } catch (error) {
+        console.error('Failed to fetch data:', error);
         res.status(500).send({ message: error.message });
     }
-})
+});
+
+module.exports = ninosController;
+
 
 //editar
 ninosController.put('/edit/:id', async (req, res) => {

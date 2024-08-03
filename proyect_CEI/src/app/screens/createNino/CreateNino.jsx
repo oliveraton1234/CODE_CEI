@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Formik, Form, Field, FieldArray } from "formik";
 import { useMutation } from 'react-query';
 import validationSchemaCreateNino from "./components/Esquema";
@@ -87,7 +87,6 @@ function CreateNinoForm() {
                             />
                             <Field
                                 name="correoElectronico"
-                                type="email"
                                 placeholder="Correo Electrónico"
                                 className="p-2 rounded-md"
                             />
@@ -152,15 +151,16 @@ function CreateNinoForm() {
                             />
                         </div>
 
-                        <h3 className="text-2xl mt-6">Calificaciones</h3>
+                        <h3 className="text-2xl mt-8">Calificaciones</h3>
                         <FieldArray
                             name="calificaciones"
                             render={(arrayHelpers) => (
-                                <div className="bg-gray-200 p-8 mt-3 rounded-xl">
+                                <div className="bg-gray-200 p-8 mt-3 rounded-xl shadow-xl">
                                     <div className="grid grid-cols-3 gap-x-4 gap-y-3">
 
                                         {values.calificaciones.map((calificacion, index) => (
                                             <React.Fragment key={index}>
+                                                
                                                 <p className="text-orange-cei">Grado Escolar</p>
                                                 <p className="text-orange-cei">Promedio</p>
                                                 <p className="text-orange-cei">Año Académico</p>
@@ -227,6 +227,14 @@ function CreateNinoForm() {
                                                         <option value="Completo">Completo</option>
                                                     </Field>
                                                 </div>
+                                                <div className='grid grid-cols-subgrid'>
+                                                    <p className="text-orange-cei mb-2">Notas</p>
+                                                    <Field
+                                                        name={`calificaciones.${index}.nota`}
+                                                        placeholder="Notas"
+                                                        className="p-2 rounded-md"
+                                                    />
+                                                </div>
                                                 <button
                                                     type="button"
                                                     onClick={() => arrayHelpers.remove(index)}
@@ -258,7 +266,7 @@ function CreateNinoForm() {
                         <FieldArray
                             name="datosEscolares"
                             render={(arrayHelpers) => (
-                                <div className="bg-gray-100 p-8 mt-3 rounded-xl">
+                                <div className="bg-gray-200 p-8 mt-3 rounded-xl">
                                     <div className="grid grid-cols-3 gap-x-4 gap-y-3">
                                         <p className="text-orange-cei">Escuela Actual</p>
                                         <p className="text-orange-cei">Carrera/Especialidad</p>
@@ -276,10 +284,20 @@ function CreateNinoForm() {
                                                     className="p-2 rounded-md"
                                                 />
                                                 <Field
+                                                    as="select"
                                                     name={`datosEscolares.${index}.turno`}
                                                     placeholder="Turno"
                                                     className="p-2 rounded-md"
-                                                />
+                                                >
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Matutino">Matutino</option>
+                                                    <option value="Vespertino">Vespertino</option>
+                                                    <option value="Mixto">Mixto</option>
+                                                    <option value="Linea">Linea</option>
+                                                    <option value="Sabatino">Sabatino</option>
+                                                    <option value="Pendiente">Pendiente</option>
+                                                    <option value="Sabado y Domingo">Sábado y Domingo</option>
+                                                </Field>
                                                 <p className="text-orange-cei">Entrega de carta</p>
                                                 <p className="text-orange-cei">Trámite año</p>
                                                 <p className="text-orange-cei">Trámite realizado</p>
@@ -407,7 +425,7 @@ function CreateNinoForm() {
                         <FieldArray
                             name="tequios"
                             render={arrayHelpers => (
-                                <div className='bg-gray-100 p-8 mt-3 rounded-xl'>
+                                <div className='bg-gray-200 p-8 mt-3 rounded-xl'>
                                     <div className='grid grid-cols-6 gap-x-4 gap-y-3'>
                                         <p className='text-orange-cei col-span-1'>Número</p>
                                         <p className='text-orange-cei col-span-1'>Realizado</p>
@@ -512,12 +530,12 @@ function CreateNinoForm() {
                         <FieldArray
                             name="contactos"
                             render={arrayHelpers => (
-                                <div className='bg-white p-8 mt-3 rounded-xl shadow-lg'>
+                                <div className='bg-gray-200 p-8 mt-3 rounded-xl shadow-lg'>
                                     <div className='grid grid-cols-12 gap-4'>
                                         <p className='text-orange-cei col-span-3 font-medium'>Nombre</p>
                                         <p className='text-orange-cei col-span-3 font-medium'>Teléfono</p>
                                         <p className='text-orange-cei col-span-5 font-medium'>Notas</p>
-                                        <p className='col-span-1'></p> {/* Placeholder for alignment */}
+                                        <p className='col-span-1'></p>  
                                         {values.contactos.map((contacto, index) => (
                                             <React.Fragment key={index}>
                                                 <Field

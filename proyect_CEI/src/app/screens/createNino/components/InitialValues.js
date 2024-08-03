@@ -23,6 +23,7 @@ export const initialValuesCreateNino = {
                 nombreMateria: "",
                 calificacion: 0,
             }],
+            nota: "",
         },
     ],
     articulos: [

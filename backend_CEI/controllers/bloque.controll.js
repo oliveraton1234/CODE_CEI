@@ -29,13 +29,18 @@ bloqueController.put('/updateBlock/:id', async (req, res) => {
     }
 });
 
-bloqueController.delete('/deleteOneBlock', async (req, res) => {
+bloqueController.delete('/deleteOneBlock/:id', async (req, res) => {
     try {
-        await Bloque.findByIdAndDelete(req.params.id);
-        res.status(204).send();
+        const result = await Bloque.findByIdAndDelete(req.params.id);
+        if (result) {
+            res.status(204).send();
+        } else {
+            res.status(404).send({ message: 'Bloque no encontrado' });
+        }
     } catch (error) {
         res.status(500).send(error);
-    }
+    }   
 });
 
-module.exports = bloqueController;
+
+module.exports = bloqueController;  

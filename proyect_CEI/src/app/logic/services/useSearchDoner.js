@@ -6,7 +6,7 @@ import api_base_url from '../../configs/api_basse_url';
 const useSearchDoner = (nombre,shouldFetch) => {
     return useQuery(
         ['searchDonor', nombre],
-        () => axios.get(`${api_base_url}/donadores/search/byName`, {
+        () => axios.get(`${api_base_url}/donadores/`, {
             params: { nombre }
         }).then(res => res.data),
         {

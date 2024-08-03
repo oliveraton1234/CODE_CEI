@@ -23,10 +23,17 @@ const BloquesForm = () => {
         setBloques([...bloques, nuevoBloque]);
     };
 
-    const eliminarBloque = (index) => {
-        const bloquesActualizados = bloques.filter((bloque, i) => i !== index);
-        setBloques(bloquesActualizados);
+    const eliminarBloque = async (id) => {
+        try {
+            await axios.delete(`${api_base_url}/bloques/deleteOneBlock/${id}`);
+            alert('Bloque eliminado');
+            const bloquesActualizados = bloques.filter((bloque) => bloque._id !== id);
+            setBloques(bloquesActualizados);
+        } catch (error) {
+            alert('Error al eliminar el bloque');
+        }
     };
+    
 
     return (
         <div className='bg-camell-cei h-screen'>
@@ -35,7 +42,7 @@ const BloquesForm = () => {
                 <button onClick={agregarNuevoBloque} className="bg-blue-500 text-white p-2 rounded mb-4">
                     Agregar Nuevo Bloque
                 </button>
-                <div className="flex flex-wrap overflow-x-auto">
+                <div className="flex flex-wrap overflow-x-auto overflow-y-auto ">
                     {bloques.map((bloque, index) => (
                         <Formik
                             key={index}
@@ -47,11 +54,11 @@ const BloquesForm = () => {
                                     const response = await axios.post(`${api_base_url}/bloques/createBlock`, values);
                                     bloque._id = response.data._id;
                                 }
-                                console.log('Bloque guardado:', values);
+                                alert('Cambios guardados');
                             }}
                         >
                             {({ values }) => (  
-                                <Form className="min-w-max p-4 mr-4 bg-white shadow-xl rounded"> 
+                                <Form className="min-w-max p-4 mr-4 mb-5 bg-white shadow-xl rounded"> 
                                     <h2 className="text-2xl font- bold mt-3">Bloque {index + 1}</h2>
                                     <h2 className='font-medium my-2'>Titulo: <Field name="nombreBloque" placeholder="Nombre del Bloque" className="p-2 rounded-md border" /></h2>
                                     <FieldArray
@@ -59,7 +66,7 @@ const BloquesForm = () => {
                                         render={arrayHelpers => (
                                             <div >
                                                 {values.materias && values.materias.length > 0 ? (
-                                                    values.materias.map((materia, i) => (
+                                                    values. materias.map((materia, i) => (
                                                         <div key={i} className="flex items-center space-x-2">
                                                             <Field name={`materias.${i}`} placeholder="Nombre de Materia" className="p-2 rounded-md border my-1" />
                                                             <button type="button" onClick={() => arrayHelpers.remove(i)} className="bg-red-500 text-white p-1 rounded">
@@ -79,7 +86,7 @@ const BloquesForm = () => {
                                         )}
                                     />
                                     <button className='bg-green-500 text-white p-2 rounded mt-3 ' type="submit">Guardar Cambios</button>
-                                    <button className='bg-red-500 text-white p-2 rounded mt-3 ' type="button" onClick={() => eliminarBloque()} >Eliminar</button>
+                                    <button className='bg-red-500 text-white p-2 rounded mt-3 ' type="button" onClick={() => eliminarBloque(values._id)} >Eliminar</button>
                                 </Form>
                             )}
                         </Formik>

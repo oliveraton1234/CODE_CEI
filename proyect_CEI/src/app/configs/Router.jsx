@@ -31,7 +31,8 @@ function Router() {
                 <Route path="/reportes" element={<Reportes/>} />
                 <Route path="/reportes/reprobados" element={<TableComponent/>} />
                 <Route path="/reportes/ciclo" element={<ReportesCiclo/>} />
-                
+                <Route />
+
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Routes>
         </BrowserRouter>

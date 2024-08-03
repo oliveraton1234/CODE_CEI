@@ -10,7 +10,8 @@ const calificacionesSchema = new Schema({
     promedio: { type: Number, required: false },
     materias: [materiaSchema],
     añoAcademico: { type: String, required: false }, 
-    semestre: { type: String, required: false}
+    semestre: { type: String, required: false},
+    nota: { type: String, required: false }
 },
 {
     timestamps: true

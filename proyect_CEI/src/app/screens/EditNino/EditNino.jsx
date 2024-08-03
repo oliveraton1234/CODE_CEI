@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Formik, Form, Field, FieldArray } from 'formik';
-import { initialValuesCreateNino } from '../createNino/components/InitialValues';
+
 import { useSelector } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import { validationSchemaEditNino } from './components/ValidationSchema';
@@ -22,8 +22,7 @@ function EditNinoForm() {
     const nino = useSelector((state) => state.nino.nino || {});
     const { padrinos = [] } = nino;
     const { updateNino } = useEditNino();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [setSelectedMateriaIndex] = useState(null);
+    
 
     const handleSubmit = async (values) => {
         const filteredPadrinos = padrinos.filter(p => p.padrino);
@@ -87,26 +86,10 @@ function EditNinoForm() {
         setExpandedIndices(newSet);
     };
 
-    const pushMateria = (arrayHelpers, index) => {
-        arrayHelpers.insert(index, {
-            materias: [...(initialValuesCreateNino.calificaciones[index]?.materias || []), { nombre: '', calificacion: 0 }]
-        });
-    };
-
     const calculoPromedio = (materias) => {
         if (!materias || materias.length === 0) return 0;
         const suma = materias.reduce((acc, curr) => acc + (curr.calificacion || 0), 0);
         return (suma / materias.length).toFixed(2);
-    };
-
-    const openModal = (index) => {
-        setSelectedMateriaIndex(index);
-        setIsModalOpen(true);
-    };
-
-    const selectMateria = (materia) => {
-        // setFile(`calificaciones.${selectedMateriaIndex}.materias.nombre`, materia.nombre);
-        setIsModalOpen(false);
     };
 
     const [bloques, setBloques] = useState([]);
@@ -135,7 +118,7 @@ function EditNinoForm() {
                 validationSchema={validationSchemaEditNino}
                 onSubmit={handleSubmit}
             >
-                {({ values, errors, touched }) => (
+                {({ values  }) => (
                     <Form>
                         <div className="flex flex-col">
                             <div className="flex items-center mb-4">
@@ -161,7 +144,7 @@ function EditNinoForm() {
 
                         <h3 className="text-2xl mt-4">Datos Generales</h3>
 
-                        <div className="bg-gray-200 p-8 mt-3 grid grid-cols-4 gap-x-4 gap-y-3 rounded-xl">
+                        <div className="bg-gray-200 p-8 mt-3 grid grid-cols-4 gap-x-4 gap-y-3 rounded-xl shadow-xl">
                             <p className="text-orange-cei">Nombre</p>
                             <p className="text-orange-cei">Apellido</p>
                             <p className="text-orange-cei">Fecha Nacimiento</p>
@@ -183,7 +166,6 @@ function EditNinoForm() {
                             />
                             <Field
                                 name="correoElectronico"
-                                type="email"
                                 placeholder="Correo Electrónico"
                                 className="p-2 rounded-md"
                             />
@@ -248,11 +230,11 @@ function EditNinoForm() {
 
                         </div>
 
-                        <h3 className="text-2xl">Calificaciones</h3>
+                        <h3 className="text-2xl mt-9">Calificaciones</h3>
                         <FieldArray
                             name="calificaciones"
                             render={({ remove, push }) => (
-                                <div className="bg-gray-200 p-8 mt-3 rounded-xl">
+                                <div className="bg-gray-200 p-8 mt-3 rounded-xl shadow-xl">
                                     {values.calificaciones.map((calificacion, index) => (
                                         <div key={index} className="mb-4 p-4 shadow rounded bg-white">
                                             <div className="flex justify-between items-center mb-3">
@@ -321,6 +303,12 @@ function EditNinoForm() {
                                                         <option value="Febrero-Junio">Febrero-Junio</option>
                                                         <option value="Completo">Completo</option>
                                                     </Field>
+
+                                                    <Field
+                                                        name={`calificaciones.${index}.nota`}
+                                                        placeholder="Notas"
+                                                        className="p-2 rounded-md border col-span-2 mt-1"
+                                                    />
                                                 </div>
                                                 <button type='button' onClick={() => toggleExpand(index)} className="p-2 bg-blue-500 text-white rounded-md">
                                                     {expandedIndices.has(index) ? "Ocultar Detalles" : "Mostrar Detalles"}
@@ -385,27 +373,11 @@ function EditNinoForm() {
                             )}
                         />
 
-                        {isModalOpen && (
-                            <div className="modal">
-                                <div className="modal-content">
-                                    <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
-                                    {bloques.map((bloque, i) => (
-                                        <div key={i}>
-                                            <h3>{bloque.nombreBloque}</h3>
-                                            {bloque.materias.map(materia => (
-                                                <p key={materia} onClick={() => selectMateria(materia)}>{materia}</p>
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        <h3 className="text-2xl">Datos escolares</h3>
+                        <h3 className="text-2xl mt-9">Datos escolares</h3>
                         <FieldArray
                             name="datosEscolares"
                             render={(arrayHelpers) => (
-                                <div className="bg-white p-8 my-3 rounded-xl shadow-xl">
+                                <div className="bg-gray-200 p-8 my-3 rounded-xl shadow-xl">
                                     <div className="grid grid-cols-3 gap-x-4 gap-y-3">
                                         {values.datosEscolares.map((dato, index) => (
                                             <React.Fragment key={index}>
@@ -424,10 +396,20 @@ function EditNinoForm() {
                                                     className="p-2 rounded-md"
                                                 />
                                                 <Field
+                                                    as="select"
                                                     name={`datosEscolares.${index}.turno`}
                                                     placeholder="Turno"
                                                     className="p-2 rounded-md"
-                                                />
+                                                >
+                                                    <option value="">Selecciona una opción</option>
+                                                    <option value="Matutino">Matutino</option>
+                                                    <option value="Vespertino">Vespertino</option>
+                                                    <option value="Mixto">Mixto</option>
+                                                    <option value="Linea">Linea</option>
+                                                    <option value="Sabatino">Sabatino</option>
+                                                    <option value="Pendiente">Pendiente</option>
+                                                    <option value="Sabado y Domingo">Sábado y Domingo</option>
+                                                </Field>
                                                 <p className="text-orange-cei">Entrega de carta</p>
                                                 <p className="text-orange-cei">Trámite año</p>
                                                 <p className="text-orange-cei">Trámite realizado</p>
@@ -466,11 +448,11 @@ function EditNinoForm() {
                         />
 
 
-                        <h3 className="text-2xl">Artículo</h3>
+                        <h3 className="text-2xl mt-9">Artículo</h3>
                         <FieldArray
                             name="articulos"
                             render={(arrayHelpers) => (
-                                <div className="bg-gray-200 p-8 mt-3 rounded-xl">
+                                <div className="bg-gray-200 p-8 mt-3 rounded-xl shadow-xl">
                                     <div className="grid grid-cols-4 gap-x-4 gap-y-3">
                                         <p className="text-orange-cei">Tipo</p>
                                         <p className="text-orange-cei">Talla</p>
@@ -550,11 +532,11 @@ function EditNinoForm() {
                             )}
                         />
 
-                        <h3 className="text-2xl">Tequios</h3>
+                        <h3 className="text-2xl mt-9">Tequios</h3>
                         <FieldArray
                             name="tequios"
                             render={arrayHelpers => (
-                                <div className='bg-gray-100 p-8 mt-3 rounded-xl'>
+                                <div className='bg-gray-200 p-8 mt-3 rounded-xl shadow-xl'>
                                     <div className='grid grid-cols-6 gap-x-4 gap-y-3'>
                                         <p className='text-orange-cei col-span-1'>Número</p>
                                         <p className='text-orange-cei col-span-1'>Realizado</p>
@@ -589,12 +571,12 @@ function EditNinoForm() {
                             )}
                         />
 
-                        <h3 className="text-2xl">Padres</h3>
+                        <h3 className="text-2xl mt-9">Padres</h3>
 
                         <FieldArray
                             name="familiares"
                             render={(arrayHelpers) => (
-                                <div className="bg-gray-200 p-8 mt-3 rounded-xl">
+                                <div className="bg-gray-200 p-8 mt-3 rounded-xl shadow-xl">
                                     <div className="grid grid-cols-3 gap-x-3 gap-y-3">
                                         <p className="text-orange-cei">Nombre</p>
                                         <p className="text-orange-cei">Parentesco</p>
@@ -656,11 +638,11 @@ function EditNinoForm() {
                             )}
                         />
 
-                        <h3 className="text-2xl">Contactos</h3>
-                        <FieldArray
+                        <h3 className="text-2xl mt-9">Contactos</h3>
+                            <FieldArray
                             name="contactos"
                             render={arrayHelpers => (
-                                <div className='bg-gray-100 p-8 mt-3 rounded-xl'>
+                                <div className='bg-gray-200 p-8 mt-3 rounded-xl shadow-xl'>
                                     <div className='grid grid-cols-4 gap-x-4 gap-y-3'>
                                         <p className='text-orange-cei col-span-1'>Nombre</p>
                                         <p className='text-orange-cei col-span-1'>Teléfono</p>
@@ -691,22 +673,22 @@ function EditNinoForm() {
                             )}
                         />
 
-                        <h3 className="text-2xl mt4">Padrinos Actuales</h3>
+                        <h3 className="text-2xl mt-9">Padrinos Actuales</h3>
 
-                        <div className='mt4'>
-                            <div className="mt-5">
+                        <div className='mt-6'>
+                            <div className="mt-5 ml-8">
                                 <h3 className="text-xl font-bold mb-3">Información de Padrinos</h3>
                                 {values.padrinos.length > 0 ? (
                                     values.padrinos.map((padrino, index) => (
-                                        <div key={index} className="bg-gray-100 p-4 rounded-lg mb-2 shadow">
-                                            <p className="font-semibold">Padrino {index + 1}: {values.padrinosInfo[index].nombre} {values.padrinosInfo[index].apellido}</p>
+                                        <div key={index} className="bg-gray-200 p-4 rounded-lg mb-2 shadow">
+                                            <p className="font-semibold">Padrino {index + 1} : {values.padrinosInfo[index].nombre} {values.padrinosInfo[index].apellido}</p>
                                             <div className="grid grid-cols-3 gap-4 mt-4 mb-2">
                                                 <div>
-                                                    <label className="text-gray-600">Fecha de Inicio</label>
+                                                    <label className="text-gray-400">Fecha de Inicio</label>
                                                     <Field
                                                         name={`padrinos[${index}].fechaInicio`}
                                                         type="date"
-                                                        className="form-input mt-1 block w-full"
+                                                        className="form-input mt-1 block w-full p-1 rounded"
                                                     />
                                                 </div>
                                                 <div>
@@ -714,7 +696,7 @@ function EditNinoForm() {
                                                     <Field
                                                         name={`padrinos[${index}].fechaFin`}
                                                         type="date"
-                                                        className="form-input mt-1 block w-full"
+                                                        className="form-input mt-1 block w-full p-1 rounded"
                                                     />
                                                 </div>
                                                 <div>
@@ -722,7 +704,7 @@ function EditNinoForm() {
                                                     <Field
                                                         as="select"
                                                         name={`padrinos[${index}].estatus`}
-                                                        className="form-select mt-1 block w-full"
+                                                        className="form-select mt-1 block w-full p-1 rounded"
                                                     >
                                                         <option value={true}>Activo</option>
                                                         <option value={false}>Inactivo</option>
@@ -734,7 +716,7 @@ function EditNinoForm() {
                                 ) : <p>No hay padrinos asignados aún.</p>}
                             </div>
 
-                            <h3 className="text-2xl mt-8">Agregar Nuevo Padrino</h3>
+                            <h3 className="text-2xl mt-9">Agregar Nuevo Padrino</h3>
                             <input
                                 type="text"
                                 placeholder="Buscar padrino..."
@@ -746,7 +728,7 @@ function EditNinoForm() {
                             {isLoadingSearch && <p>Cargando...</p>}
                             {isErrorSearch && <p>Error en la búsqueda: {errorSearch.message}</p>}
                             {resultados && resultados.map((padrino) => (
-                                <div key={padrino._id} className="flex flex-col bg-gray-100 p-4 mt-2 rounded-xl">
+                                <div key={padrino._id} className="flex flex-col bg-gray-200 p-4 mt-2 rounded-xl">
                                     <p>{padrino.nombre} {padrino.apellido}</p>
                                     <button onClick={() => handleSelectPadrino(padrino)} type='button' className="p-2 bg-blue-300 text-white rounded-md">Seleccionar</button>
                                 </div>

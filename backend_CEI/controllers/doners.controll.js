@@ -89,8 +89,12 @@ donersController.put('/edit/:id', getDonador, async (req, res) => {
 // Eliminar un donador
 donersController.delete('/:id', getDonador, async (req, res) => {
   try {
-    await res.donador.remove();
-    res.json({ message: 'Donador eliminado' });
+    const result = await Donador.findByIdAndDelete(req.params.id);
+        if (result) {
+            res.status(204).send();
+        } else {
+            res.status(404).send({ message: 'Donador no encontrado' });
+        }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

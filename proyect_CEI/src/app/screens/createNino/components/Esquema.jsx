@@ -4,7 +4,7 @@ const validationSchemaCreateNino = Yup.object().shape({
     nombre: Yup.string(),
     apellido: Yup.string(),
     fechaNacimiento: Yup.date(),
-    correoElectronico: Yup.string().email("Correo electrónico inválido"),
+    correoElectronico: Yup.string(),
     genero: Yup.string(),
     edad: Yup.number(),
     lugarNacimiento: Yup.string(),
@@ -26,6 +26,7 @@ const validationSchemaCreateNino = Yup.object().shape({
                     calificacion: Yup.number(),
                 })
             ),
+            nota: Yup.string(),
         })
     ),
     articulos: Yup.array().of(
