@@ -1,10 +1,10 @@
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const useCreateDonador = () => {
     return useMutation(
-        (newDonador) => axios.post(`${api_base_url}/donadores/create`, newDonador),
+        (newDonador) => axios.post(`${API_BASE_URL}/donadores/create`, newDonador),
         {
             onSuccess: (data) => {
                 alert("Donador creado exitosamente");

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Formik, Form, Field, FieldArray } from 'formik';
-import api_base_url from '../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import NavBarLogged from '../../shared/components/NavBarLogged';
 
 const BloquesForm = () => {
@@ -9,7 +9,7 @@ const BloquesForm = () => {
 
     useEffect(() => {
         const fetchBloques = async () => {
-            const result = await axios.get(`${api_base_url}/bloques/getAllBlocks`);
+            const result = await axios.get(`${API_BASE_URL}/bloques/getAllBlocks`);
             setBloques(result.data);
         };
         fetchBloques();
@@ -25,7 +25,7 @@ const BloquesForm = () => {
 
     const eliminarBloque = async (id) => {
         try {
-            await axios.delete(`${api_base_url}/bloques/deleteOneBlock/${id}`);
+            await axios.delete(`${API_BASE_URL}/bloques/deleteOneBlock/${id}`);
             alert('Bloque eliminado');
             const bloquesActualizados = bloques.filter((bloque) => bloque._id !== id);
             setBloques(bloquesActualizados);
@@ -49,9 +49,9 @@ const BloquesForm = () => {
                             initialValues={bloque}
                             onSubmit={async (values) => {
                                 if (bloque._id) {
-                                    await axios.put(`${api_base_url}/bloques/updateBlock/${bloque._id}`, values);
+                                    await axios.put(`${API_BASE_URL}/bloques/updateBlock/${bloque._id}`, values);
                                 } else {
-                                    const response = await axios.post(`${api_base_url}/bloques/createBlock`, values);
+                                    const response = await axios.post(`${API_BASE_URL}/bloques/createBlock`, values);
                                     bloque._id = response.data._id;
                                 }
                                 alert('Cambios guardados');

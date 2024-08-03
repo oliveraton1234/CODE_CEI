@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import api_base_url from '../../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import NavBarLogged from '../../../shared/components/NavBarLogged';
 
 export const ReportesCiclo = () => {
@@ -23,7 +23,7 @@ export const ReportesCiclo = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get(`${api_base_url}/ninos/reportes/ciclos`, { params: { year, semester } });
+            const response = await axios.get(`${API_BASE_URL}/ninos/reportes/ciclos`, { params: { year, semester } });
             const rawData = response.data;
             
             // Procesar datos para la tabla

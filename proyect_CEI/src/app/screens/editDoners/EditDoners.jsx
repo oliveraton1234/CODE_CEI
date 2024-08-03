@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { initialValuesEditDonador, validationSchemaEditDonador } from './components/FormComplementsEditDoner';
 import useUpdateDonador from '../../logic/services/EditDonador';
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function EditDoners() {
 
@@ -16,7 +16,7 @@ function EditDoners() {
 
     const deleteDoner = async() => {
         try{
-            await axios.delete(`${api_base_url}/donadores/${doner._id}`);
+            await axios.delete(`${API_BASE_URL}/donadores/${doner._id}`);
             alert('Donador eliminado');
         } catch (error) {
             console.log(error);

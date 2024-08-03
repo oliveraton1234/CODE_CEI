@@ -12,8 +12,6 @@ const bloqueController = require('./controllers/bloque.controll')
 
 logger.info('connecting...',)
 
-
-
 const connectToMongoDB = async () => {
   try {
     await mongoose.connect(config.MONGODB_URI)

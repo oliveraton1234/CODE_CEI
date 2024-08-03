@@ -1,8 +1,9 @@
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CreateNinoService = async (values) => {
-    const response = await axios.post(`${api_base_url}/ninos/create`, values);
+    const response = await axios.post(`${API_BASE_URL}/ninos/create`, values);
     return response.data;
   };
 

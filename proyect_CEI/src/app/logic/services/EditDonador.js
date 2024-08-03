@@ -1,10 +1,10 @@
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const useUpdateDonador = () => {
     return useMutation(
-        ({ id, ...data }) => axios.put(`${api_base_url}/donadores/edit/${id}`, data),
+        ({ id, ...data }) => axios.put(`${API_BASE_URL}/donadores/edit/${id}`, data),
         {
             onSuccess: (data) => {
                 alert("Donador actualizado exitosamente");

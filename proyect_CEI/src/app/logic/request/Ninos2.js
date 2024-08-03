@@ -1,11 +1,10 @@
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
 
-// Asegúrate de que tu servicio Axios esté configurado correctamente
-// services/ninoService.js
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const buscarNinos = async (nombre, categoriasParaBuscar) => {
   
-    const response = await axios.get(`${api_base_url}/ninos/`, {
+    const response = await axios.get(`${API_BASE_URL}/ninos/`, {
       params: {
         nombre,
         categorias: categoriasParaBuscar

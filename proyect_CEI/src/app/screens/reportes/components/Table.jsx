@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import api_base_url from '../../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import { saveAs } from 'file-saver';
 import NavBarLogged from '../../../shared/components/NavBarLogged';
 
@@ -17,7 +17,7 @@ const TableComponent = () => {
     const fetchReportData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${api_base_url}/ninos/reprobados`, {
+            const response = await axios.get(`${API_BASE_URL}/ninos/reprobados`, {
                 params: { promedioMaximo, materia, anioAcademico, semestre }
             });
             setAvailableData(response.data.map(item => ({

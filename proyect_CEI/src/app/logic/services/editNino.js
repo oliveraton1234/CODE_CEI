@@ -1,7 +1,7 @@
 
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import { setNino } from '../Redux/actions/ninoAction';
 import { useDispatch } from 'react-redux';
 
@@ -10,7 +10,7 @@ const useEditNino = () => {
     const dispatch = useDispatch();
     const { mutateAsync, isLoading, isError, error } = useMutation(
         async ({ id, ...data }) => {
-            const response = await axios.put(`${api_base_url}/ninos/edit/${id}`, data);  
+            const response = await axios.put(`${API_BASE_URL}/ninos/edit/${id}`, data);  
             console.log("Datos guardados:", response.data);
             return response.data;
         },

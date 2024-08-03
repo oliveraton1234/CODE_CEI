@@ -7,7 +7,7 @@ import { validationSchemaEditNino } from './components/ValidationSchema';
 import useEditNino from '../../logic/services/editNino';
 import useSearchDoner from '../../logic/services/useSearchDoner';
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import { initialValuesEditNino } from './components/initialValuesEditNino';
 
 function EditNinoForm() {
@@ -96,7 +96,7 @@ function EditNinoForm() {
 
     useEffect(() => {
         const fetchBloques = async () => {
-            const result = await axios.get(`${api_base_url}/bloques/getAllBlocks`);
+            const result = await axios.get(`${API_BASE_URL}/bloques/getAllBlocks`);
             setBloques(result.data);
         };
         fetchBloques();

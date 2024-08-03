@@ -1,12 +1,12 @@
 
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import api_base_url from '../../configs/api_basse_url';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const useSearchDoner = (nombre,shouldFetch) => {
     return useQuery(
         ['searchDonor', nombre],
-        () => axios.get(`${api_base_url}/donadores/`, {
+        () => axios.get(`${API_BASE_URL}/donadores/`, {
             params: { nombre }
         }).then(res => res.data),
         {
