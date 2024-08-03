@@ -12,7 +12,7 @@ function Mission({color}) {
     return (
         <div className={`${colorBack[color]} flex`}>
             <div className="w-2/4 pl-96 md:pl-52">
-                <h1 className=" mb-14 font-bold text-6xl" >New Name, Same Mission</h1>
+                <h1 className=" mb-14 font-bold text-6xl" >New Name , Same Mission</h1>
                 
                 <p className="mt-3.5  text-xl leading-loose" >
                 In January 2024, we changed our organization’s name from Oaxaca Streetchildren Grassroots to Oaxaca Youth Empowerment (OYE).
