@@ -10,14 +10,15 @@ function LoginPage() {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const navigate = useLocation();
+    const [location, setLocation] = useLocation();
 
     const handleLogin = () => {
-        if (!user || !password) {
-            alert("Por favor, ingrese usuario y contraseña");
-            return;
-        }
-        dispatch(login(user, password, navigate));
+        // if (!user || !password) {
+        //     alert("Por favor, ingrese usuario y contraseña");
+        //     return;
+        // }
+        // dispatch(login(user, password, navigate));
+        setLocation('/home');
     };
 
     return (
