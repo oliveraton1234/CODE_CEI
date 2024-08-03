@@ -2,7 +2,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-import Router from './configs/Router.jsx'
+import RouterApp from './configs/Router.jsx'
 import { Provider } from 'react-redux';
 import store from './logic/store.js';
 
@@ -14,7 +14,7 @@ function App() {
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <Router />
+          <RouterApp />
         </QueryClientProvider>
       </Provider>
     </>
