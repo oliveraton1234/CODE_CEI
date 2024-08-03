@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Switch } from "react-router-dom"
 import LandingPage from "../screens/landing/LandingPage";
 import LoginPage from "../screens/login/LoginPage";
 import HomeLogged from "../screens/home/HomeLogged";
@@ -12,35 +12,29 @@ import BloquesForm from "../screens/bloquesForm/BloquesForm";
 import Reportes from "../screens/reportes/Reportes";
 import TableComponent from "../screens/reportes/components/Table";
 import { ReportesCiclo } from "../screens/reportes/components/ReportesCiclo";
-import PrivateRoute from "./PrivateRoute";
 
 function Router() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                {/* <Route path="/home" element={<PrivateRoute> <HomeLogged /> </PrivateRoute>} />
+        <Router>
+            <Switch>
+                <Route path="/" component={<LandingPage />} />
+                <Route path="/login" component={<LoginPage />} />
+                <Route path="/home" component={ <HomeLogged /> } />
 
-                    <Route path="/kids" element={<PrivateRoute> <Ninos /> </PrivateRoute>} />
-                    <Route path="/create-nino" element={<PrivateRoute> <CreateNinoForm /> </PrivateRoute>} />
-                    <Route path="/donors" element={<PrivateRoute> <Donadores /> </PrivateRoute>} /> */}
-                <Route path="/home" element={ <HomeLogged /> } />
-
-                <Route path="/kids" element={<Ninos /> } />
-                <Route path="/create-nino" element={<CreateNinoForm /> } />
-                <Route path="/donors" element={<Donadores /> } />
-                <Route path="/data-ninos" element={<EditNinoForm />} />
-                <Route path="/edit-donors" element={<EditDoners />} />
-                <Route path="/create-donors" element={<CreateDoners />} />
-                <Route path="/materiasForm" element={<BloquesForm />} />
-                <Route path="/reportes" element={<Reportes />} />
-                <Route path="/reportes/reprobados" element={<TableComponent />} />
-                <Route path="/reportes/ciclo" element={<ReportesCiclo />} />
+                <Route path="/kids" component={<Ninos /> } />
+                <Route path="/create-nino" component={<CreateNinoForm /> } />
+                <Route path="/donors" component={<Donadores /> } />
+                <Route path="/data-ninos" component={<EditNinoForm />} />
+                <Route path="/edit-donors" component={<EditDoners />} />
+                <Route path="/create-donors" component={<CreateDoners />} />
+                <Route path="/materiasForm" component={<BloquesForm />} />
+                <Route path="/reportes" component={<Reportes />} />
+                <Route path="/reportes/reprobados" component={<TableComponent />} />
+                <Route path="/reportes/ciclo" component={<ReportesCiclo />} />
 
                 <Route path="*" element={<h1>Not Found</h1>} />
-            </Routes>
-        </BrowserRouter>
+            </Switch>
+        </Router>
     );
 }
 
