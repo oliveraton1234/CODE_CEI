@@ -5,7 +5,6 @@ import {
 import Router from './configs/Router.jsx'
 import { Provider } from 'react-redux';
 import store from './logic/store.js';
-import { BrowserRouter } from 'react-router-dom';
 
 function App() {
 
@@ -15,9 +14,7 @@ function App() {
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <Router />
-          </BrowserRouter>
+          <Router />
         </QueryClientProvider>
       </Provider>
     </>
