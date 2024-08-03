@@ -1,5 +1,5 @@
 // import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { Router, Route, Switch, Link } from 'wouter';
+import { Router, Route, Switch } from 'wouter';
 
 import LandingPage from "../screens/landing/LandingPage";
 import LoginPage from "../screens/login/LoginPage";
@@ -18,14 +18,6 @@ import { ReportesCiclo } from "../screens/reportes/components/ReportesCiclo";
 function RouterApp() {
     return (
         <Router>
-            <div>
-                <nav>
-                    <Link href="/">Home</Link>
-                    <Link href="/login">Login</Link>
-                    <Link href="/home">Home Logged</Link>
-                    
-                </nav>
-
                 <Switch>
                     <Route path="/" component={LandingPage} />
                     <Route path="/login" component={LoginPage} />
@@ -42,7 +34,7 @@ function RouterApp() {
                     <Route path="/reportes/ciclo" component={ReportesCiclo} />
 
                 </Switch>
-            </div>
+            
         </Router>
     );
 }

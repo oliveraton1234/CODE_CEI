@@ -3,13 +3,14 @@ import CEI from '../../../assets/images/CEI.png';
 import { useDispatch } from 'react-redux';
 import { login } from '../../logic/Redux/actions/authAction'; 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "wouter";
+
 
 function LoginPage() {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate = useLocation();
 
     const handleLogin = () => {
         if (!user || !password) {
