@@ -1,6 +1,4 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { Router, Route, Switch } from 'wouter';
-
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LandingPage from "../screens/landing/LandingPage";
 import LoginPage from "../screens/login/LoginPage";
 import HomeLogged from "../screens/home/HomeLogged";
@@ -15,28 +13,30 @@ import Reportes from "../screens/reportes/Reportes";
 import TableComponent from "../screens/reportes/components/Table";
 import { ReportesCiclo } from "../screens/reportes/components/ReportesCiclo";
 
-function RouterApp() {
-    return (
-        <Router>
-                <Switch>
-                    <Route path="/" component={LandingPage} />
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/home" component={HomeLogged} />
-                    <Route path="/kids" component={Ninos} />
-                    <Route path="/create-nino" component={CreateNinoForm} />
-                    <Route path="/donors" component={Donadores} />
-                    <Route path="/data-ninos" component={EditNinoForm} />
-                    <Route path="/edit-donors" component={EditDoners} />
-                    <Route path="/create-donors" component={CreateDoners} />
-                    <Route path="/materiasForm" component={BloquesForm} />
-                    <Route path="/reportes" component={Reportes} />
-                    <Route path="/reportes/reprobados" component={TableComponent} />
-                    <Route path="/reportes/ciclo" component={ReportesCiclo} />
 
-                </Switch>
-            
-        </Router>
+function Router() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<LandingPage/>} />
+                <Route path="/login" element={<LoginPage/>} />
+                <Route path="/home" element={<HomeLogged/>} />
+                <Route path="/kids" element={<Ninos/>} />
+                <Route path="/create-nino" element={<CreateNinoForm/>} />
+                <Route path="/donors" element={<Donadores/>} />
+                <Route path="/data-ninos" element={<EditNinoForm  />}/>
+                <Route path="/edit-donors" element={<EditDoners  />}/>
+                <Route path="/create-donors" element={<CreateDoners/>} />
+                <Route path="/materiasForm" element={<BloquesForm/>} />
+                <Route path="/reportes" element={<Reportes/>} />
+                <Route path="/reportes/reprobados" element={<TableComponent/>} />
+                <Route path="/reportes/ciclo" element={<ReportesCiclo/>} />
+                <Route />
+
+                <Route path="*" element={<h1>Not Found</h1>} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
-export default RouterApp;
+export default Router;
