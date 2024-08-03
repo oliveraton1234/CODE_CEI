@@ -15,26 +15,24 @@ userRouter.post('/register', asyncHandler(async (req, res) => {
         throw new Error('El usuario ya existe');
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const usuario = await Usuario.create({
+    const usuario = new Usuario({
         name,
         email,
-        password: hashedPassword,
+        password,
         area,
         permisos
     });
 
-    if (usuario) {
+    const savedUsuario = await usuario.save();
+
+    if (savedUsuario) {
         res.status(201).json({
-            _id: usuario._id,
-            name: usuario.name,
-            email: usuario.email,
-            area: usuario.area,
-            permisos: usuario.permisos,
-            password: usuario.password,
-            token: generateToken(usuario._id),
+            _id: savedUsuario._id,
+            name: savedUsuario.name,
+            email: savedUsuario.email,
+            area: savedUsuario.area,
+            permisos: savedUsuario.permisos,
+            token: generateToken(savedUsuario._id),
         });
     } else {
         res.status(400);
@@ -42,20 +40,20 @@ userRouter.post('/register', asyncHandler(async (req, res) => {
     }
 }));
 
+
 // Login usuario
 userRouter.post('/login', asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    console.log(`Attempting to log in user: ${email}`);
+    console.log(`Attempting to log in user: ${email} with password: ${password}`);
 
     const usuario = await Usuario.findOne({ email });
     if (!usuario) {
-        console.log('User not found!');
-        res.status(401).send('Correo electrónico o contraseña no se enceuntra en la bd');
+        console.log('User not found for email:', email);
+        res.status(401).send('Correo electrónico o contraseña');
         return;
-    }
+    }   
 
-    const isMatch = await bcrypt.compare(password, usuario.password);
-    if (isMatch) {
+    if (usuario && await usuario.matchPassword(password)) {
         console.log('User authenticated, generating token...');
         res.json({
             _id: usuario._id,
@@ -66,10 +64,11 @@ userRouter.post('/login', asyncHandler(async (req, res) => {
             token: generateToken(usuario._id),
         });
     } else {
-        console.log('Password does not match!');
-        res.status(401).send('Correo electrónico o contraseña inválidos');
+        console.log('Password does not match for user:', email);
+        res.status(401).send('Correo electrónico o contraseña invalidos');
     }
 }));
+
 
 
 // Generar token JWT

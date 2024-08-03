@@ -1,8 +1,8 @@
-// src/store/authReducer.js
+
 const initialState = {
-    isAuthenticated: false,
-    user: null,
-    token: null
+    isAuthenticated: !!localStorage.getItem('token'),
+    token: localStorage.getItem('token'),
+    user: null
 };
 
 function authReducer(state = initialState, action) {
@@ -15,6 +15,7 @@ function authReducer(state = initialState, action) {
                 token: action.payload.token
             };
         case 'LOGOUT':
+            localStorage.removeItem('token');
             return {
                 ...state,
                 isAuthenticated: false,

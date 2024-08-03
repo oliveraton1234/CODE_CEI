@@ -34,7 +34,6 @@ function SearchKids() {
   };
 
   const handleSearchClick = async () => {
-    console.log('her');
     const categoriasQuery = categoriasSeleccionadas
         .flatMap(categoria => {
             const clave = categoriaClaves[categoria];

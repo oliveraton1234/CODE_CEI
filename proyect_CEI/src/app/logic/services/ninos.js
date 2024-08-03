@@ -1,9 +1,9 @@
 import axios from 'axios';
-const  = import.meta.env.VITE_;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const buscarNinos = async (nombre, categoriasParaBuscar) => {
   
-    const response = await axios.get(`${}/ninos/`, {
+    const response = await axios.get(`${API_BASE_URL}/ninos/`, {
       params: {
         nombre,
         categorias: categoriasParaBuscar

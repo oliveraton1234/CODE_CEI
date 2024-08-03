@@ -232,7 +232,7 @@ function CreateNinoForm() {
                                                     <Field
                                                         name={`calificaciones.${index}.nota`}
                                                         placeholder="Notas"
-                                                        className="p-2 rounded-md"
+                                                        className="p-2 rounded-md "
                                                     />
                                                 </div>
                                                 <button
