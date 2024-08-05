@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, } from "react-router-dom"
+import { BrowserRouter, Routes, Route, createHashRouter, RouterProvider } from "react-router-dom"
 import LandingPage from "../screens/landing/LandingPage";
 import LoginPage from "../screens/login/LoginPage";
 import HomeLogged from "../screens/home/HomeLogged";
@@ -31,12 +31,75 @@ function Router() {
                 <Route path="/reportes" element={<Reportes/>} />
                 <Route path="/reportes/reprobados" element={<TableComponent/>} />
                 <Route path="/reportes/ciclo" element={<ReportesCiclo/>} />
-                
+
 
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Routes>
         </BrowserRouter>
     );
 }
+
+// const router = createHashRouter([
+//     {
+//         path: "/",
+//         element: <LandingPage />
+//     },
+//     {
+//         path: "/login",
+//         element: <LoginPage />
+//     },
+//     {
+//         path: "/home",
+//         element: <HomeLogged />
+//     },
+//     {
+//         path: "/kids",
+//         element: <Ninos />
+//     },
+//     {
+//         path: "/create-nino",
+//         element: <CreateNinoForm />
+//     },
+//     {
+//         path: "/donors",
+//         element: <Donadores />
+//     },
+//     {
+//         path: "/data-ninos",
+//         element: <EditNinoForm />
+//     },
+//     {
+//         path: "/edit-donors",
+//         element: <EditDoners />
+//     },
+//     {
+//         path: "/create-donors",
+//         element: <CreateDoners />
+//     },
+//     {
+//         path: "/materiasForm",
+//         element: <BloquesForm />
+//     },
+//     {
+//         path: "/reportes",
+//         element: <Reportes />
+//     },
+//     {
+//         path: "/reportes/reprobados",
+//         element: <TableComponent />
+//     },
+//     {
+//         path: "/reportes/ciclo",
+//         element: <ReportesCiclo />
+//     },
+//     {
+//         path: "*",
+//         element: <h1>Not Found</h1>
+//     }
+// ]);
+
+// function Router() {
+//     return <RouterProvider router={router} />;
+// }
 
 export default Router;
