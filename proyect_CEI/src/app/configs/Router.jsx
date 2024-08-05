@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, } from "react-router-dom"
 import LandingPage from "../screens/landing/LandingPage";
 import LoginPage from "../screens/login/LoginPage";
 import HomeLogged from "../screens/home/HomeLogged";
@@ -16,7 +16,7 @@ import { ReportesCiclo } from "../screens/reportes/components/ReportesCiclo";
 
 function Router() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.DEV ? '/' : '/proyect_CEI/'}>
             <Routes>
                 <Route path="/" element={<LandingPage/>} />
                 <Route path="/login" element={<LoginPage/>} />
@@ -31,7 +31,7 @@ function Router() {
                 <Route path="/reportes" element={<Reportes/>} />
                 <Route path="/reportes/reprobados" element={<TableComponent/>} />
                 <Route path="/reportes/ciclo" element={<ReportesCiclo/>} />
-                <Route />
+                
 
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Routes>
