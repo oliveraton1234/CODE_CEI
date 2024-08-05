@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, createHashRouter, RouterProvider } from "react-router-dom"
 import ReactDOM from "react-dom/client";
 import App from "./app/App.jsx";
 import "./assets/index.css";
