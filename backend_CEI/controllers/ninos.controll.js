@@ -85,7 +85,7 @@ ninosController.get('/', async (req, res) => {
 
 
 ninosController.get('/reprobados', async (req, res) => {
-    const { promedioMaximo, materia, anioAcademico, semestre } = req.query;
+    const { promedioMaximo, materia, anioAcademico, semestre, gradoEscolar } = req.query;
 
     try {
         let matchQuery = { estatus: 'Activo' };
@@ -119,8 +119,12 @@ ninosController.get('/reprobados', async (req, res) => {
             pipeline.push({ $match: { 'calificaciones.añoAcademico': anioAcademico } });
         }
 
-        if (semestre && semestre !== 'Completo') {
+        if (semestre) {
             pipeline.push({ $match: { 'calificaciones.semestre': semestre } });
+        }
+
+        if(gradoEscolar) {
+            pipeline.push({ $match: { 'calificaciones.gradoEscolar': gradoEscolar } });
         }
 
         const reprobados = await Nino.aggregate(pipeline);
