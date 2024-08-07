@@ -114,7 +114,11 @@ ninosController.get('/reprobados', async (req, res) => {
             { $project: projectQuery }
         ];
 
-        // Añadiendo filtros de año académico y semestre si se especifican
+        
+        if(gradoEscolar) {
+            pipeline.push({ $match: { 'calificaciones.gradoEscolar': gradoEscolar } });
+        }
+
         if (anioAcademico) {
             pipeline.push({ $match: { 'calificaciones.añoAcademico': anioAcademico } });
         }
@@ -123,9 +127,6 @@ ninosController.get('/reprobados', async (req, res) => {
             pipeline.push({ $match: { 'calificaciones.semestre': semestre } });
         }
 
-        if(gradoEscolar) {
-            pipeline.push({ $match: { 'calificaciones.gradoEscolar': gradoEscolar } });
-        }
 
         const reprobados = await Nino.aggregate(pipeline);
         res.status(200).json(reprobados);
@@ -199,6 +200,21 @@ ninosController.get("/reportes/ciclos", async (req, res) => {
     }
 });
 
+ninosController.delete('/delete/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const nino = await Nino.findByIdAndDelete(id);
+
+        if (!nino) {
+            return res.status(404).send({ message: 'Niño no encontrado' });
+        }
+
+        res.status(200).send(nino);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+});
 
 async function procesarDatosReporte(datos) {
     return datos.map(nino => ({
