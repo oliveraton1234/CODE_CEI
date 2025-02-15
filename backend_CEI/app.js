@@ -23,26 +23,26 @@ const connectToMongoDB = async () => {
 
 connectToMongoDB()
 
-// morgan.token('statusColor', (req, res) => {
-//   var status = (typeof res.headersSent !== 'boolean' ? Boolean(res.header) : res.headersSent)
-//     ? res.statusCode
-//     : undefined
+morgan.token('statusColor', (req, res) => {
+  var status = (typeof res.headersSent !== 'boolean' ? Boolean(res.header) : res.headersSent)
+    ? res.statusCode
+    : undefined
 
-//   var color = status >= 500 ? 31
-//     : status >= 400 ? 33
-//       : status >= 300 ? 36
-//         : status >= 200 ? 32
-//           : 0;
+  var color = status >= 500 ? 31
+    : status >= 400 ? 33
+      : status >= 300 ? 36
+        : status >= 200 ? 32
+          : 0;
 
-//   return '\x1b[' + color + 'm' + status + '\x1b[0m';
-// });
+  return '\x1b[' + color + 'm' + status + '\x1b[0m';
+});
 
-// morgan.token('body', function (req) {
-//   //return
-//   return JSON.stringify(req.body)
-// })
+morgan.token('body', function (req) {
+  //return
+  return JSON.stringify(req.body)
+})
 
-// app.use(morgan('\x1b[33m:method\x1b[0m \x1b[36m:url\x1b[0m :statusColor :response-time ms - :body'));
+app.use(morgan('\x1b[33m:method\x1b[0m \x1b[36m:url\x1b[0m :statusColor :response-time ms - :body'));
 
 app.use(cors())
 // app.use(express.static('build'))
